@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { TRoute } from "../types/route";
+import { TRoute } from "./routeType";
 
 const routes: TRoute[] = [
   {
@@ -31,6 +31,14 @@ const routes: TRoute[] = [
   {
     path: "*",
     element: lazy(() => import("../pages/PageNotFound")),
+  },
+  {
+    path: "/sign-up",
+    element: lazy(() => import("../pages/UserPage/SignUpPage")),
+  },
+  {
+    path: "/sign-in",
+    element: lazy(() => import("../pages/UserPage/SignInPage")),
   },
 ];
 
