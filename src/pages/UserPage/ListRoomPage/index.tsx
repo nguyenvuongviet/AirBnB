@@ -1,4 +1,4 @@
-const ListRoomPage = () => {
+const ListRoomPage: React.FC = () => {
   return <div>ListRoomPage</div>;
 };
 

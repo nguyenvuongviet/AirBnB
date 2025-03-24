@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import SignInReducer from "./slices/sign-in";
+import SignUpReducer from "./slices/sign-up";
 // const env = import.meta.env.NODE_ENV;
 
 const store = configureStore({
   reducer: {
-    signIn: SignInReducer, 
+    signIn: SignInReducer,
+    signUp: SignUpReducer,
   },
   //   devTools: env === "development",
 });

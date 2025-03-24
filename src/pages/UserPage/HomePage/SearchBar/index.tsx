@@ -1,7 +1,4 @@
-import { Input, Button } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-
-const SearchBar = () => {
+const SearchBar: React.FC = () => {
   return <div>Hello</div>;
 };
 

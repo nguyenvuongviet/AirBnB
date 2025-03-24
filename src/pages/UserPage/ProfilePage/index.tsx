@@ -1,4 +1,4 @@
-const ProFilePage = () => {
+const ProFilePage: React.FC = () => {
   return <div>ProFilePage</div>;
 };
 

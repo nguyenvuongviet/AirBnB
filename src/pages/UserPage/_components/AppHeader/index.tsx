@@ -1,18 +1,16 @@
-import {
-  MenuOutlined,
-  UserOutlined
-} from "@ant-design/icons";
+import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Dropdown, Image, Layout } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../../../store";
 import { logout } from "../../../../store/slices/sign-in";
 import MenuItems from "./MenuItems";
+import { UserInfo } from "../../../../models/UserInfo";
 
 const { Header } = Layout;
 
 const AppHeader: React.FC = () => {
-  const user = useSelector((state: any) => state.signIn.data);
+  const user: UserInfo = useSelector((state: any) => state.signIn.data);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -47,12 +45,13 @@ const AppHeader: React.FC = () => {
         placement="bottomRight"
       >
         <Button className="flex items-center gap-2 bg-gray-100 px-4 py-5 rounded-full hover:bg-gray-200 shadow-lg">
-          <MenuOutlined style={{ fontSize: "1.1rem" }} />
-          {user ? (
-            <Avatar icon={<UserOutlined style={{ fontSize: "1.2rem" }} />} />
-          ) : (
-            <UserOutlined style={{ fontSize: "1.2rem" }} />
-          )}
+          <MenuOutlined className="text-lg" />
+          <Avatar
+            src={user?.avatar || undefined}
+            alt="Avatar"
+            className="flex items-center justify-center"
+            icon={<UserOutlined className="text-xl" />}
+          />
         </Button>
       </Dropdown>
     </Header>

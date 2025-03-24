@@ -1,4 +1,4 @@
-export type LoginView = {
+export type Login = {
   email: string;
   password: string;
 };
