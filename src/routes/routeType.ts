@@ -1,7 +1,5 @@
-import { LazyExoticComponent, JSX } from "react";
-
 export type TRoute = {
   path: string;
-  element: LazyExoticComponent<() => JSX.Element>;
+  element: React.FC;
   children?: TRoute[];
 };

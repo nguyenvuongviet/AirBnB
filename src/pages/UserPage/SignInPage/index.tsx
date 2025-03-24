@@ -1,9 +1,9 @@
 import { Button, Card, Form, Input, notification, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { Login } from "../../../models/Login";
 import { AppDispatch, RootState } from "../../../store/index";
 import { actLogin } from "../../../store/slices/sign-in";
-import { Login } from "../../../models/Login";
 
 const { Title, Text } = Typography;
 

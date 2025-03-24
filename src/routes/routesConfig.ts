@@ -1,44 +1,52 @@
-import { lazy } from "react";
+import AdminPage from "../pages/AdminPage";
+import PageNotFound from "../pages/PageNotFound";
+import UserPage from "../pages/UserPage";
+import DetailRoomPage from "../pages/UserPage/DetailRoomPage";
+import HomePage from "../pages/UserPage/HomePage";
+import ListRoomPage from "../pages/UserPage/ListRoomPage";
+import ProFilePage from "../pages/UserPage/ProfilePage";
+import SignInPage from "../pages/UserPage/SignInPage";
+import SignUpPage from "../pages/UserPage/SignUpPage";
 import { TRoute } from "./routeType";
 
 const routes: TRoute[] = [
   {
     path: "/",
-    element: lazy(() => import("../pages/UserPage")),
+    element: UserPage,
     children: [
       {
         path: "/",
-        element: lazy(() => import("../pages/UserPage/HomePage")),
+        element: HomePage,
       },
       {
         path: "/list-room/:city",
-        element: lazy(() => import("../pages/UserPage/ListRoomPage")),
+        element: ListRoomPage,
       },
       {
         path: "/detail-room/:id",
-        element: lazy(() => import("../pages/UserPage/DetailRoomPage")),
+        element: DetailRoomPage,
       },
       {
         path: "/profile",
-        element: lazy(() => import("../pages/UserPage/ProfilePage")),
+        element: ProFilePage,
       },
     ],
   },
   {
     path: "/admin",
-    element: lazy(() => import("../pages/AdminPage")),
+    element: AdminPage,
   },
   {
     path: "*",
-    element: lazy(() => import("../pages/PageNotFound")),
+    element: PageNotFound,
   },
   {
     path: "/sign-up",
-    element: lazy(() => import("../pages/UserPage/SignUpPage")),
+    element: SignUpPage,
   },
   {
     path: "/sign-in",
-    element: lazy(() => import("../pages/UserPage/SignInPage")),
+    element: SignInPage,
   },
 ];
 
