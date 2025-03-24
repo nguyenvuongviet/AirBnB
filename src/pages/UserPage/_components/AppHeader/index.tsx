@@ -6,6 +6,7 @@ import { AppDispatch } from "../../../../store";
 import { logout } from "../../../../store/slices/sign-in";
 import MenuItems from "./MenuItems";
 import { UserInfo } from "../../../../models/UserInfo";
+import logo from "../../../../assets/images/logo.png";
 
 const { Header } = Layout;
 
@@ -22,12 +23,7 @@ const AppHeader: React.FC = () => {
   return (
     <Header className="bg-white shadow-lg px-6 md:px-16 flex items-center justify-between fixed w-full z-50 h-20">
       <NavLink to="/" className="flex items-center gap-4">
-        <Image
-          src="src/assets/images/logo.png"
-          alt="Logo"
-          preview={false}
-          width={130}
-        />
+        <Image src={logo} alt="Logo" preview={false} width={130} />
       </NavLink>
 
       <nav className="hidden md:flex space-x-8">
