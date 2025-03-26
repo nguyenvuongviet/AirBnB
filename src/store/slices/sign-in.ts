@@ -1,17 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ApiResponse, Content } from "../../models/ApiResponse";
+import { ApiResponse } from "../../models/ApiResponse";
 import { Login } from "../../models/Login";
 import { UserInfo } from "../../models/UserInfo";
 import api from "../../services/api";
 
-type ResponseUser = ApiResponse<Content<UserInfo>>;
+type ResponseUser = ApiResponse<UserInfo>;
 
 export const actLogin = createAsyncThunk(
   "signIn/actLogin",
   async (login: Login, { rejectWithValue }) => {
     try {
       const response = await api.post<ResponseUser>("/auth/signin", login);
-      return response.data.content.user;
+      return response.data.content;
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.content || "Đã xảy ra lỗi, vui lòng thử lại!";

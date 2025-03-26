@@ -3,8 +3,3 @@ export type ApiResponse<T = any> = {
   content: T;
   dateTime: Date;
 };
-
-export type Content<T = any> = {
-  user: T;
-  token: string;
-};

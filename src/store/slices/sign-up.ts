@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ApiResponse, Content } from "../../models/ApiResponse";
+import { ApiResponse } from "../../models/ApiResponse";
 import { UserInfo } from "../../models/UserInfo";
 import api from "../../services/api";
 
-type ResponseUser = ApiResponse<Content<UserInfo>>;
+type ResponseUser = ApiResponse<UserInfo>;
 
 export const actSignUp = createAsyncThunk(
   "signUp/actSignUp",
   async (userInfo: UserInfo, { rejectWithValue }) => {
     try {
       const response = await api.post<ResponseUser>("/auth/signup", userInfo);
-      return response.data.content.user;
+      return response.data.content;
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.content || "Đăng ký thất bại, vui lòng thử lại!";

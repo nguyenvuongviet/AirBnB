@@ -29,7 +29,7 @@ const AppHeader: React.FC = () => {
       <nav className="hidden md:flex space-x-8">
         <NavLink
           to="/"
-          className="text-blue-600 text-lg font-semibold hover:text-blue-800"
+          className="text-black text-lg font-semibold hover:text-blue-800"
         >
           Trang Chủ
         </NavLink>
@@ -39,12 +39,14 @@ const AppHeader: React.FC = () => {
         menu={{ items: MenuItems({ user, handleLogout }) }}
         trigger={["click"]}
         placement="bottomRight"
+        className="hover:shadow-2xl hover:scale-105"
       >
-        <Button className="flex items-center gap-2 bg-gray-100 px-4 py-5 rounded-full hover:bg-gray-200 shadow-lg">
+        <Button className="flex items-center gap-2 bg-gray-100 px-4 py-6 rounded-full hover:bg-gray-200 shadow-lg">
           <MenuOutlined className="text-lg" />
           <Avatar
             src={user?.avatar || undefined}
             alt="Avatar"
+            size={35}
             className="flex items-center justify-center"
             icon={<UserOutlined className="text-xl" />}
           />

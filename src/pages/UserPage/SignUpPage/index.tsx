@@ -7,7 +7,7 @@ import {
   Typography,
   notification,
 } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { UserInfo } from "../../../models/UserInfo";
@@ -24,6 +24,9 @@ const SignUpPage: React.FC = () => {
     (state: RootState) => state.signUp
   );
 
+  const [role, setRole] = useState<string>("USER");
+  const [adminKey, setAdminKey] = useState<string>("");
+
   useEffect(() => {
     if (success) {
       notification.success({
@@ -37,11 +40,19 @@ const SignUpPage: React.FC = () => {
 
   useEffect(() => {
     if (error) {
-      notification.error({ message: error, placement: "bottomRight", });
+      notification.error({ message: error, placement: "bottomRight" });
     }
   }, [error]);
 
   const onFinish = async (values: UserInfo) => {
+    if (role === "ADMIN" && adminKey !== "ADMIN") {
+      notification.error({
+        message: "Đăng ký thất bại! Vui lòng nhập lại khóa quản trị!",
+        placement: "bottomRight",
+      });
+      return;
+    }
+
     dispatch(actSignUp(values));
   };
 
@@ -54,7 +65,7 @@ const SignUpPage: React.FC = () => {
         <Form
           layout="vertical"
           onFinish={onFinish}
-          initialValues={{ gender: true, role: "User" }}
+          initialValues={{ gender: true, role: "USER" }}
         >
           <Form.Item
             label="Họ và tên"
@@ -119,12 +130,35 @@ const SignUpPage: React.FC = () => {
               </Select>
             </Form.Item>
             <Form.Item label="Vai trò" name="role">
-              <Select size="large">
+              <Select
+                size="large"
+                onChange={(value) => setRole(value)}
+                value={role}
+              >
                 <Option value="USER">Người dùng</Option>
                 <Option value="ADMIN">Quản trị viên</Option>
               </Select>
             </Form.Item>
           </div>
+
+          {role === "ADMIN" && (
+            <Form.Item
+              label="Nhập key Admin"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập key để xác nhận quyền Admin!",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Nhập key Admin"
+                size="large"
+                value={adminKey}
+                onChange={(e) => setAdminKey(e.target.value)}
+              />
+            </Form.Item>
+          )}
 
           <Button
             type="primary"

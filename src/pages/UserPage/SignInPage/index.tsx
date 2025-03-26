@@ -47,7 +47,7 @@ const SignInPage: React.FC = () => {
             name="email"
             rules={[
               { required: true, message: "Vui lòng nhập email!" },
-              // { type: "email", message: "Email không hợp lệ!" },
+              { type: "email", message: "Email không hợp lệ!" },
             ]}
           >
             <Input placeholder="Nhập email của bạn" size="large" />

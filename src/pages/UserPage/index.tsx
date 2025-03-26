@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Header from "./_components/AppHeader";
 import Footer from "./_components/AppFooter";
+import Header from "./_components/AppHeader";
 
 const UserPage: React.FC = () => {
   return (
