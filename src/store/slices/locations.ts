@@ -1,15 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../services/api";
 import { ApiResponse } from "../../models/ApiResponse";
 import { Location } from "../../models/Location";
-
-type ResponseLocations = ApiResponse<Location[]>;
+import api from "../../services/api";
 
 export const fetchLocations = createAsyncThunk(
   "locations/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get<ResponseLocations>("/vi-tri");
+      const response = await api.get<ApiResponse<Location[]>>("/vi-tri");
       return response.data.content;
     } catch (error) {
       return rejectWithValue(error);

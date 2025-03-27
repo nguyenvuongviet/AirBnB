@@ -1,7 +1,7 @@
+import { EnvironmentOutlined } from "@ant-design/icons";
+import { List } from "antd";
 import React from "react";
 import ReactDOM from "react-dom";
-import { List } from "antd";
-import { EnvironmentOutlined } from "@ant-design/icons";
 import { Location } from "../../../../../models/Location";
 
 interface LocationListProps {
@@ -25,7 +25,7 @@ const LocationList: React.FC<LocationListProps> = ({
       style={{
         top: bottom + window.scrollY + 5,
         left: left + window.scrollX,
-        width: width < 400 ? "90%" : width * 0.5, 
+        width: width < 400 ? "90%" : width * 0.5,
       }}
       onMouseDown={(e) => e.preventDefault()}
     >
@@ -41,14 +41,10 @@ const LocationList: React.FC<LocationListProps> = ({
               }}
               onClick={() => onSelect(item)}
             >
-              {/* Icon với màu nền */}
-              <span
-                className="flex items-center justify-center bg-gray-200 text-gray-600 text-xl w-10 h-10 rounded-full"
-              >
+              <span className="flex items-center justify-center bg-gray-200 text-gray-600 text-xl w-10 h-10 rounded-full">
                 <EnvironmentOutlined />
               </span>
 
-              {/* Nội dung địa điểm */}
               <div className="flex flex-col justify-center min-w-0">
                 <div className="text-base font-semibold text-gray-900 truncate w-[150px] sm:w-[200px]">
                   {item.tenViTri}

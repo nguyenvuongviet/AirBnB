@@ -3,13 +3,14 @@ import { ApiResponse } from "../../models/ApiResponse";
 import { UserInfo } from "../../models/UserInfo";
 import api from "../../services/api";
 
-type ResponseUser = ApiResponse<UserInfo>;
-
 export const actSignUp = createAsyncThunk(
   "signUp/actSignUp",
   async (userInfo: UserInfo, { rejectWithValue }) => {
     try {
-      const response = await api.post<ResponseUser>("/auth/signup", userInfo);
+      const response = await api.post<ApiResponse<UserInfo>>(
+        "/auth/signup",
+        userInfo
+      );
       return response.data.content;
     } catch (error: any) {
       const errorMessage =

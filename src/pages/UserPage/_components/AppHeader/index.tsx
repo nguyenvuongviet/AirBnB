@@ -2,11 +2,11 @@ import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Dropdown, Image, Layout } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../../../../assets/images/logo.png";
+import { UserInfo } from "../../../../models/UserInfo";
 import { AppDispatch } from "../../../../store";
 import { logout } from "../../../../store/slices/sign-in";
 import MenuItems from "./MenuItems";
-import { UserInfo } from "../../../../models/UserInfo";
-import logo from "../../../../assets/images/logo.png";
 
 const { Header } = Layout;
 

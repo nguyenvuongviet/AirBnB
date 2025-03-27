@@ -19,7 +19,7 @@ const routes: TRoute[] = [
         element: HomePage,
       },
       {
-        path: "/list-room/:city",
+        path: "/list-room/:maViTri",
         element: ListRoomPage,
       },
       {
@@ -33,7 +33,7 @@ const routes: TRoute[] = [
     ],
   },
   {
-    path: "/admin",
+    path: "/cms-admin",
     element: AdminPage,
   },
   {

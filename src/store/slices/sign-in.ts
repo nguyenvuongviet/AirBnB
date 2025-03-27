@@ -4,13 +4,14 @@ import { Login } from "../../models/Login";
 import { UserInfo } from "../../models/UserInfo";
 import api from "../../services/api";
 
-type ResponseUser = ApiResponse<UserInfo>;
-
 export const actLogin = createAsyncThunk(
   "signIn/actLogin",
   async (login: Login, { rejectWithValue }) => {
     try {
-      const response = await api.post<ResponseUser>("/auth/signin", login);
+      const response = await api.post<ApiResponse<UserInfo>>(
+        "/auth/signin",
+        login
+      );
       return response.data.content;
     } catch (error: any) {
       const errorMessage =

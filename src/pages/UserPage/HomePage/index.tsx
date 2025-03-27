@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/index.ts";
-import { fetchLocations } from "../../../store/slices/location.ts";
+import { fetchLocations } from "../../../store/slices/locations.ts";
 import Destinations from "./Destinations.tsx/index.tsx";
 import SearchBar from "./SearchBar/index.tsx";
 import banner from "../../../assets/images/banner.jpg";

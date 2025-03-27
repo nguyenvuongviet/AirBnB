@@ -1,6 +1,7 @@
 import { CloseOutlined, SearchOutlined } from "@ant-design/icons";
-import { Button, DatePicker, Input, Spin } from "antd";
+import { Button, DatePicker, Input, notification, Spin } from "antd";
 import React, { useCallback, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Location } from "../../../../models/Location";
 import LocationList from "./LocationList";
 
@@ -13,8 +14,12 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [selectedLocationId, setSelectedLocationId] = useState<number | null>(
+    null
+  );
   const searchBarRef = useRef<HTMLDivElement | null>(null);
 
   const filteredLocations = useMemo(
@@ -28,6 +33,27 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
         : locations,
     [searchTerm, locations]
   );
+
+  const handleSearch = () => {
+    if (selectedLocationId) {
+      navigate(`/list-room/${selectedLocationId}`);
+    } else {
+      notification.error({
+        message: "Lỗi",
+        description: "Vui lòng chọn địa điểm trước khi tìm kiếm!",
+        placement: "topRight",
+      });
+    }
+  };
+
+  const handleSelectLocation = useCallback((location: Location) => {
+    setSearchTerm(location.tenViTri);
+    setSelectedLocationId(location.id);
+    setIsInputFocused(false);
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  }, []);
 
   const renderLocationList = () => {
     if (!isInputFocused) return null;
@@ -43,14 +69,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
       />
     );
   };
-
-  const handleSelectLocation = useCallback((location: Location) => {
-    setSearchTerm(location.tenViTri);
-    setIsInputFocused(false);
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
-  }, []);
 
   return (
     <div
@@ -72,12 +90,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
           onFocus={() => setIsInputFocused(true)}
           onBlur={() => setIsInputFocused(false)}
           suffix={
-            searchTerm && (
-              <CloseOutlined
-                className="cursor-pointer text-gray-500 hover:text-gray-700 transition-all text-sm"
-                onClick={() => setSearchTerm("")}
-              />
-            )
+            <CloseOutlined
+              className={`cursor-pointer text-gray-500 hover:text-gray-700 transition-all text-sm ${
+                searchTerm ? "visible" : "invisible"
+              }`}
+              onClick={() => setSearchTerm("")}
+            />
           }
         />
         {renderLocationList()}
@@ -119,6 +137,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
         shape="circle"
         icon={<SearchOutlined className="!text-sm sm:!text-xl md:!text-2xl" />}
         className="!w-[2.5rem] sm:!w-[3rem] md:!w-[3.7rem] !h-[2.5rem] sm:!h-[3rem] md:!h-[3.7rem] !bg-[#FF385C] !mr-5 flex items-center justify-center"
+        onClick={handleSearch}
       />
     </div>
   );

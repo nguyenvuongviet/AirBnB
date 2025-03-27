@@ -4,9 +4,12 @@ import Header from "./_components/AppHeader";
 
 const UserPage: React.FC = () => {
   return (
-    <div>
+    <div className="relative min-h-screen flex flex-col">
       <Header />
-      <Outlet />
+      <div className="flex-1 pt-20">
+        <Outlet />
+      </div>
+
       <Footer />
     </div>
   );
