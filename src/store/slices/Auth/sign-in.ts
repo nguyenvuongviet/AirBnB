@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ApiResponse } from "../../../models/ApiResponse";
-import { Login } from "../../../models/Login";
-import { UserInfo } from "../../../models/UserInfo";
-import api from "../../../services/api";
 import { CurrentUser } from "../../../models/CurrentUser";
+import { Login } from "../../../models/Login";
+import api from "../../../services/api";
 
 export const actLogin = createAsyncThunk(
   "signIn/actLogin",
