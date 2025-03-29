@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import SignInReducer from "./slices/Auth/sign-in";
+import SignUpReducer from "./slices/Auth/sign-up";
+import bookedRoomsReducer from "./slices/bookedRooms";
 import locationReducer from "./slices/locations";
 import roomsReducer from "./slices/rooms";
-import SignInReducer from "./slices/sign-in";
-import SignUpReducer from "./slices/sign-up";
+import userReducer from "./slices/user";
 // const env = import.meta.env.NODE_ENV;
 
 const store = configureStore({
@@ -11,6 +13,8 @@ const store = configureStore({
     signUp: SignUpReducer,
     location: locationReducer,
     rooms: roomsReducer,
+    bookedRooms: bookedRoomsReducer,
+    user: userReducer,
   },
   //   devTools: env === "development",
 });

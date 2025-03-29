@@ -1,14 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ApiResponse } from "../../models/ApiResponse";
-import { Login } from "../../models/Login";
-import { UserInfo } from "../../models/UserInfo";
-import api from "../../services/api";
+import { ApiResponse } from "../../../models/ApiResponse";
+import { Login } from "../../../models/Login";
+import { UserInfo } from "../../../models/UserInfo";
+import api from "../../../services/api";
+import { CurrentUser } from "../../../models/CurrentUser";
 
 export const actLogin = createAsyncThunk(
   "signIn/actLogin",
   async (login: Login, { rejectWithValue }) => {
     try {
-      const response = await api.post<ApiResponse<UserInfo>>(
+      const response = await api.post<ApiResponse<CurrentUser>>(
         "/auth/signin",
         login
       );
@@ -23,7 +24,7 @@ export const actLogin = createAsyncThunk(
 
 const initialState = {
   loading: false,
-  data: null as UserInfo | null,
+  data: null as CurrentUser | null,
   error: null as string | null,
 };
 
@@ -35,6 +36,7 @@ const signInSlice = createSlice({
       state.data = null;
       state.error = null;
       localStorage.removeItem("userInfo");
+      localStorage.removeItem("CURRENT_USER");
     },
   },
   extraReducers: (builder) => {
@@ -46,7 +48,11 @@ const signInSlice = createSlice({
       .addCase(actLogin.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
-        localStorage.setItem("userInfo", JSON.stringify(action.payload));
+        localStorage.setItem("CURRENT_USER", JSON.stringify(action.payload));
+        if (action.payload && action.payload.user) {
+          const userInfo = { user: action.payload.user };
+          localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        }
       })
       .addCase(actLogin.rejected, (state, action) => {
         state.loading = false;

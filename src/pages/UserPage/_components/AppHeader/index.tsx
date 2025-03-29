@@ -1,22 +1,35 @@
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
-import { Avatar, Button, Dropdown, Image, Layout } from "antd";
+import { Avatar, Button, Dropdown, Image, Layout, notification } from "antd";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../../../assets/images/logo.png";
-import { UserInfo } from "../../../../models/UserInfo";
-import { AppDispatch } from "../../../../store";
-import { logout } from "../../../../store/slices/sign-in";
+import { AppDispatch, RootState } from "../../../../store";
+import { logout } from "../../../../store/slices/Auth/sign-in";
 import MenuItems from "./MenuItems";
 
 const { Header } = Layout;
 
 const AppHeader: React.FC = () => {
-  const user: UserInfo = useSelector((state: any) => state.signIn.data);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  const { user } = useSelector((state: RootState) => state.user);
+  const [avatar, setAvatar] = useState(user?.avatar);
+
+  useEffect(() => {
+    if (user?.avatar !== avatar) {
+      setAvatar(user?.avatar);
+    }
+  }, [user?.avatar]);
+
   const handleLogout = () => {
     dispatch(logout());
+    notification.success({
+      message: "Đăng xuất",
+      description: "Bạn đã đăng xuất khỏi hệ thống.",
+      placement: "topRight",
+    });
     navigate("/");
   };
 

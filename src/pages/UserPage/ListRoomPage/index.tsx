@@ -1,6 +1,6 @@
+import { Col, Pagination, Row, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Skeleton, Pagination, Row, Col } from "antd";
 import { useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../../store";
 import { fetchRoomsByLocation } from "../../../store/slices/rooms";

@@ -9,7 +9,6 @@ const UserPage: React.FC = () => {
       <div className="flex-1 pt-20">
         <Outlet />
       </div>
-
       <Footer />
     </div>
   );

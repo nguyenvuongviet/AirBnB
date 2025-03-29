@@ -3,25 +3,29 @@ import { ApiResponse } from "../../models/ApiResponse";
 import { Room } from "../../models/Room";
 import api from "../../services/api";
 
-interface RoomsState {
-  rooms: Room[];
+interface BookedRoomsState {
+  bookedRooms: Room[];
   loading: boolean;
   error: string | null;
 }
 
-const initialState: RoomsState = {
-  rooms: [],
+const initialState: BookedRoomsState = {
+  bookedRooms: [],
   loading: false,
   error: null,
 };
 
-export const fetchRoomsByLocation = createAsyncThunk(
-  "rooms/fetchRoomsByLocation",
-  async (maViTri: number, { rejectWithValue }) => {
+export const fetchBookedRooms = createAsyncThunk(
+  "bookedRooms/fetchBookedRooms",
+  async (MaNguoiDung: number, { rejectWithValue }) => {
     try {
+      // MaNguoiDung = 1;
       const response = await api.get<ApiResponse<Room[]>>(
-        `/phong-thue/lay-phong-theo-vi-tri?maViTri=${maViTri}`
+        `dat-phong/lay-theo-nguoi-dung/${MaNguoiDung}`
+        // `/phong-thue`
       );
+      console.log(response.data.content);
+
       return response.data.content;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Lỗi API");
@@ -29,25 +33,25 @@ export const fetchRoomsByLocation = createAsyncThunk(
   }
 );
 
-const roomsSlice = createSlice({
-  name: "rooms",
+const bookedRoomsSlice = createSlice({
+  name: "bookedRooms",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchRoomsByLocation.pending, (state) => {
+      .addCase(fetchBookedRooms.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchRoomsByLocation.fulfilled, (state, action) => {
+      .addCase(fetchBookedRooms.fulfilled, (state, action) => {
         state.loading = false;
-        state.rooms = action.payload;
+        state.bookedRooms = action.payload;
       })
-      .addCase(fetchRoomsByLocation.rejected, (state, action) => {
+      .addCase(fetchBookedRooms.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
   },
 });
 
-export default roomsSlice.reducer;
+export default bookedRoomsSlice.reducer;

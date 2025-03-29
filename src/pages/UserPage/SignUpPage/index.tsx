@@ -12,7 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { UserInfo } from "../../../models/UserInfo";
 import { AppDispatch, RootState } from "../../../store";
-import { actSignUp, resetSignUpState } from "../../../store/slices/sign-up";
+import {
+  actSignUp,
+  resetSignUpState,
+} from "../../../store/slices/Auth/sign-up";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
@@ -31,7 +34,7 @@ const SignUpPage: React.FC = () => {
     if (success) {
       notification.success({
         message: "Đăng ký thành công! Vui lòng đăng nhập.",
-        placement: "bottomRight",
+        placement: "topRight",
       });
       dispatch(resetSignUpState());
       navigate("/sign-in");
@@ -40,7 +43,7 @@ const SignUpPage: React.FC = () => {
 
   useEffect(() => {
     if (error) {
-      notification.error({ message: error, placement: "bottomRight" });
+      notification.error({ message: error, placement: "topRight" });
     }
   }, [error]);
 

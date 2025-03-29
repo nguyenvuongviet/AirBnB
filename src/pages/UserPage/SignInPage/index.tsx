@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Login } from "../../../models/Login";
 import { AppDispatch, RootState } from "../../../store/index";
-import { actLogin } from "../../../store/slices/sign-in";
+import { actLogin } from "../../../store/slices/Auth/sign-in";
 
 const { Title, Text } = Typography;
 
@@ -19,14 +19,14 @@ const SignInPage: React.FC = () => {
       notification.success({
         message: "Thành công",
         description: "Đăng nhập thành công!",
-        placement: "bottomRight",
+        placement: "topRight",
       });
       navigate("/");
     } else {
       notification.error({
         message: "Thất bại",
         description: (resultAction.payload as string) || "Đăng nhập thất bại!",
-        placement: "bottomRight",
+        placement: "topRight",
       });
     }
   };
