@@ -24,7 +24,10 @@ const MenuItems = ({
         {
           key: "1",
           label: (
-            <NavLink to="/profile" className="flex items-center space-x-2">
+            <NavLink
+              to={`/profile/${user.id}`}
+              className="flex items-center space-x-2"
+            >
               <UserOutlined className="text-lg" />
               <span>Hồ sơ</span>
             </NavLink>

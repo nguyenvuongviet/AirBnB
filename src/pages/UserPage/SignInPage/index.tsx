@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Login } from "../../../models/Login";
 import { AppDispatch, RootState } from "../../../store/index";
 import { actLogin } from "../../../store/slices/Auth/sign-in";
+import { fetchUser } from "../../../store/slices/user";
 
 const { Title, Text } = Typography;
 
@@ -16,6 +17,7 @@ const SignInPage: React.FC = () => {
     const resultAction = await dispatch(actLogin(values));
 
     if (actLogin.fulfilled.match(resultAction)) {
+      dispatch(fetchUser(resultAction.payload.user.id));
       notification.success({
         message: "Thành công",
         description: "Đăng nhập thành công!",

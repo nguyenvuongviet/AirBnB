@@ -27,7 +27,7 @@ const routes: TRoute[] = [
         element: DetailRoomPage,
       },
       {
-        path: "/profile",
+        path: "/profile/:id",
         element: ProFilePage,
       },
     ],

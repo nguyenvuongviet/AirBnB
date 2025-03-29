@@ -2,102 +2,80 @@ import { CameraOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, notification, Tabs } from "antd";
 import Upload from "antd/es/upload";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { UserInfo } from "../../../models/UserInfo";
-import { AppDispatch } from "../../../store";
-import { logout } from "../../../store/slices/Auth/sign-in";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { AppDispatch, RootState } from "../../../store";
+import { logout, updateCurrentUser } from "../../../store/slices/Auth/sign-in";
 import { fetchUser, updateAvatar } from "../../../store/slices/user";
 import { getMenuItems } from "./MenuItems";
 
-const getUserFromLocalStorage = (): UserInfo | null => {
-  const storedUserInfo = localStorage.getItem("userInfo");
-  return storedUserInfo ? JSON.parse(storedUserInfo)?.user : null;
+const useTabPosition = () => {
+  const [tabPosition, setTabPosition] = useState<"left" | "top">(
+    window.innerWidth < 1024 ? "top" : "left"
+  );
+
+  useEffect(() => {
+    const updateTabPosition = () =>
+      setTabPosition(window.innerWidth < 1024 ? "top" : "left");
+
+    window.addEventListener("resize", updateTabPosition);
+    return () => window.removeEventListener("resize", updateTabPosition);
+  }, []);
+
+  return tabPosition;
 };
 
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
-  const [user, setUser] = useState<UserInfo | null>(getUserFromLocalStorage());
+  const { id } = useParams<{ id: string }>();
+  const user = useSelector((state: RootState) => state.user.user);
+  const tabPosition = useTabPosition();
   const [activeTab, setActiveTab] = useState("profile");
-  const [tabPosition, setTabPosition] = useState<"left" | "top">("left");
-
-  const handleLogout = () => {
-    dispatch(logout());
-    notification.success({
-      message: "Đăng xuất",
-      description: "Bạn đã đăng xuất khỏi hệ thống.",
-      placement: "topRight",
-    });
-    navigate("/");
-  };
-  const menuItems = getMenuItems(user, handleLogout);
 
   useEffect(() => {
-    const updateTabPosition = () =>
-      setTabPosition(window.innerWidth < 1024 ? "top" : "left");
-    updateTabPosition();
-    window.addEventListener("resize", updateTabPosition);
-
-    const handleStorageChange = () => setUser(getUserFromLocalStorage());
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("resize", updateTabPosition);
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+    if (id) dispatch(fetchUser(Number(id)));
+  }, [dispatch, id]);
 
   const showNotification = (
     type: "success" | "error",
     message: string,
     description: string
   ) => {
-    notification[type]({
-      message,
-      description,
-      placement: "topRight",
-    });
+    notification[type]({ message, description, placement: "topRight" });
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    showNotification("success", "Đăng xuất", "Bạn đã đăng xuất khỏi hệ thống.");
+    navigate("/");
   };
 
   const handleAvatarChange = async (info: any) => {
     const file = info.file?.originFileObj || info.file;
-
     if (!file) {
-      showNotification("error", "Lỗi", "Không tìm thấy file để tải lên!");
-      return;
-    }
-
-    try {
-      const response = await dispatch(updateAvatar(file));
-
-      if (updateAvatar.fulfilled.match(response)) {
-        const updatedUser = response.payload;
-        localStorage.setItem("userInfo", JSON.stringify({ user: updatedUser }));
-        setUser(updatedUser);
-        dispatch(fetchUser(updatedUser.id)); 
-
-        showNotification(
-          "success",
-          "Thành công",
-          "Ảnh đại diện cập nhật thành công!"
-        );
-      } else {
-        showNotification(
-          "error",
-          "Lỗi cập nhật ảnh đại diện",
-          String(response.payload)
-        );
-      }
-    } catch (error) {
-      showNotification(
+      return showNotification(
         "error",
-        "Lỗi kết nối API",
-        "Không thể cập nhật ảnh đại diện. Vui lòng thử lại!"
+        "Lỗi",
+        "Không tìm thấy file để tải lên!"
       );
     }
+
+    const response = await dispatch(updateAvatar(file));
+
+    if (updateAvatar.fulfilled.match(response)) {
+      dispatch(fetchUser(user?.id || 0));
+      showNotification(
+        "success",
+        "Thành công",
+        "Ảnh đại diện cập nhật thành công!"
+      );
+    } else {
+      showNotification("error", "Lỗi cập nhật", String(response.payload));
+    }
   };
+
+  const menuItems = getMenuItems(user, handleLogout);
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8 min-h-screen bg-gray-50">

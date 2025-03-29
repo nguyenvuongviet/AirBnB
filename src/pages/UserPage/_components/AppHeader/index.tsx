@@ -14,7 +14,7 @@ const AppHeader: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { user } = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.signIn.data?.user);
   const [avatar, setAvatar] = useState(user?.avatar);
 
   useEffect(() => {

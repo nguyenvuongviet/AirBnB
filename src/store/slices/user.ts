@@ -1,7 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { UserInfo } from "../../models/UserInfo";
 import api from "../../services/api";
 import { ApiResponse } from "../../models/ApiResponse";
+import { updateCurrentUser } from "./Auth/sign-in";
 
 interface UserState {
   user: UserInfo | null;
@@ -19,8 +20,8 @@ export const fetchUser = createAsyncThunk(
   "user/fetchUser",
   async (userId: number, { rejectWithValue }) => {
     try {
-      const response = await api.get<ApiResponse<UserInfo>>(`/users/${userId}`);
-      return response.data.content;
+      const res = await api.get<ApiResponse<UserInfo>>(`/users/${userId}`);
+      return res.data.content;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Lỗi API");
     }
@@ -31,14 +32,18 @@ export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (
     { userId, data }: { userId: number; data: Partial<UserInfo> },
-    { rejectWithValue }
+    { dispatch, rejectWithValue }
   ) => {
     try {
-      const response = await api.put<ApiResponse<UserInfo>>(
+      const res = await api.put<ApiResponse<UserInfo>>(
         `/users/${userId}`,
         data
       );
-      return response.data.content;
+      const updatedUser = res.data.content;
+
+      dispatch(updateCurrentUser(updatedUser));
+
+      return updatedUser;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Lỗi cập nhật");
     }
@@ -47,15 +52,19 @@ export const updateUser = createAsyncThunk(
 
 export const updateAvatar = createAsyncThunk(
   "user/updateAvatar",
-  async (file: File, { rejectWithValue }) => {
+  async (file: File, { dispatch, rejectWithValue }) => {
     try {
       const formData = new FormData();
       formData.append("formFile", file);
-      const response = await api.post<ApiResponse<UserInfo>>(
+      const res = await api.post<ApiResponse<UserInfo>>(
         "/users/upload-avatar",
         formData
       );
-      return response.data.content;
+      const updatedUser = res.data.content;
+
+      dispatch(updateCurrentUser({ avatar: updatedUser.avatar }));
+
+      return updatedUser;
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || "Lỗi cập nhật ảnh đại diện"
@@ -69,45 +78,36 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    const handlePending = (state: UserState) => {
+      state.loading = true;
+      state.error = null;
+    };
+
+    const handleRejected = (state: UserState, action: PayloadAction<any>) => {
+      state.loading = false;
+      state.error = action.payload;
+    };
+
+    const handleFulfilled = (
+      state: UserState,
+      action: PayloadAction<UserInfo>
+    ) => {
+      state.loading = false;
+      state.user = action.payload;
+    };
+
     builder
-      .addCase(fetchUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-      })
-      .addCase(fetchUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(updateUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-      })
-      .addCase(updateUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(updateAvatar.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateAvatar.fulfilled, (state, action) => {
-        state.loading = false;
-        if (state.user) {
-          state.user = action.payload;
-        }
-      })
-      .addCase(updateAvatar.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
+      .addCase(fetchUser.pending, handlePending)
+      .addCase(fetchUser.fulfilled, handleFulfilled)
+      .addCase(fetchUser.rejected, handleRejected)
+
+      .addCase(updateUser.pending, handlePending)
+      .addCase(updateUser.fulfilled, handleFulfilled)
+      .addCase(updateUser.rejected, handleRejected)
+
+      .addCase(updateAvatar.pending, handlePending)
+      .addCase(updateAvatar.fulfilled, handleFulfilled)
+      .addCase(updateAvatar.rejected, handleRejected);
   },
 });
 

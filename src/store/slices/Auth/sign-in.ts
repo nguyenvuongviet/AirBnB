@@ -3,6 +3,15 @@ import { ApiResponse } from "../../../models/ApiResponse";
 import { CurrentUser } from "../../../models/CurrentUser";
 import { Login } from "../../../models/Login";
 import api from "../../../services/api";
+import { UserInfo } from "../../../models/UserInfo";
+
+const saveUserToLocalStorage = (userData: CurrentUser) => {
+  localStorage.setItem("CURRENT_USER", JSON.stringify(userData));
+};
+
+const clearUserFromLocalStorage = () => {
+  localStorage.removeItem("CURRENT_USER");
+};
 
 export const actLogin = createAsyncThunk(
   "signIn/actLogin",
@@ -12,18 +21,42 @@ export const actLogin = createAsyncThunk(
         "/auth/signin",
         login
       );
-      return response.data.content;
+      const userData = response.data.content;
+      saveUserToLocalStorage(userData);
+      return userData;
     } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.content || "Đã xảy ra lỗi, vui lòng thử lại!";
-      return rejectWithValue(errorMessage);
+      return rejectWithValue(
+        error.response?.data?.content || "Đã xảy ra lỗi, vui lòng thử lại!"
+      );
     }
   }
 );
 
+export const updateCurrentUser = createAsyncThunk(
+  "signIn/updateCurrentUser",
+  async (updatedUser: Partial<UserInfo>) => {
+    const storedUser = localStorage.getItem("CURRENT_USER");
+    if (storedUser) {
+      const parsedUser: CurrentUser = JSON.parse(storedUser);
+      const newUser = {
+        ...parsedUser,
+        user: { ...parsedUser.user, ...updatedUser },
+      };
+      saveUserToLocalStorage(newUser);
+
+      return updatedUser;
+    }
+    return null;
+  }
+);
+
+const currentUser = localStorage.getItem("CURRENT_USER")
+  ? (JSON.parse(localStorage.getItem("CURRENT_USER")!) as CurrentUser)
+  : null;
+
 const initialState = {
   loading: false,
-  data: null as CurrentUser | null,
+  data: currentUser,
   error: null as string | null,
 };
 
@@ -34,8 +67,7 @@ const signInSlice = createSlice({
     logout: (state) => {
       state.data = null;
       state.error = null;
-      localStorage.removeItem("userInfo");
-      localStorage.removeItem("CURRENT_USER");
+      clearUserFromLocalStorage();
     },
   },
   extraReducers: (builder) => {
@@ -47,15 +79,14 @@ const signInSlice = createSlice({
       .addCase(actLogin.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
-        localStorage.setItem("CURRENT_USER", JSON.stringify(action.payload));
-        if (action.payload && action.payload.user) {
-          const userInfo = { user: action.payload.user };
-          localStorage.setItem("userInfo", JSON.stringify(userInfo));
-        }
       })
-      .addCase(actLogin.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
+      .addCase(updateCurrentUser.fulfilled, (state, action) => {
+        if (state.data && action.payload) {
+          state.data = {
+            ...state.data,
+            user: { ...state.data.user, ...action.payload },
+          };
+        }
       });
   },
 });
