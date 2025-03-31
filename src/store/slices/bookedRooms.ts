@@ -24,7 +24,6 @@ export const fetchBookedRooms = createAsyncThunk(
         `dat-phong/lay-theo-nguoi-dung/${MaNguoiDung}`
         // `/phong-thue`
       );
-      console.log(response.data.content);
 
       return response.data.content;
     } catch (error: any) {

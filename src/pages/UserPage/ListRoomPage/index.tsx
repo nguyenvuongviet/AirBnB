@@ -32,23 +32,31 @@ const ListRoom = () => {
       <Row gutter={[24, 24]} className="mt-5 flex flex-col-reverse lg:flex-row">
         <Col xs={24} lg={12}>
           <div className="space-y-6">
-            {loading
-              ? Array.from({ length: PAGE_SIZE }).map((_, index) => (
-                  <Skeleton active key={index} />
-                ))
-              : paginatedRooms.map((room) => (
-                  <RoomCard key={room.id} room={room} />
-                ))}
+            {loading ? (
+              Array.from({ length: PAGE_SIZE }).map((_, index) => (
+                <Skeleton active key={index} />
+              ))
+            ) : rooms.length === 0 ? (
+              <div className="text-center text-gray-500 text-lg">
+                Không có phòng nào phù hợp với tìm kiếm của bạn.
+              </div>
+            ) : (
+              paginatedRooms.map((room) => (
+                <RoomCard key={room.id} room={room} />
+              ))
+            )}
           </div>
 
-          <div className="flex justify-center mt-6">
-            <Pagination
-              current={currentPage}
-              pageSize={PAGE_SIZE}
-              total={rooms.length}
-              onChange={(page) => setCurrentPage(page)}
-            />
-          </div>
+          {rooms.length > 0 && (
+            <div className="flex justify-center mt-6">
+              <Pagination
+                current={currentPage}
+                pageSize={PAGE_SIZE}
+                total={rooms.length}
+                onChange={(page) => setCurrentPage(page)}
+              />
+            </div>
+          )}
         </Col>
 
         <Col xs={24} lg={12}>

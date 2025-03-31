@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ApiResponse } from "../../../models/ApiResponse";
 import { CurrentUser } from "../../../models/CurrentUser";
 import { Login } from "../../../models/Login";
-import api from "../../../services/api";
 import { UserInfo } from "../../../models/UserInfo";
+import api from "../../../services/api";
 
 const saveUserToLocalStorage = (userData: CurrentUser) => {
   localStorage.setItem("CURRENT_USER", JSON.stringify(userData));

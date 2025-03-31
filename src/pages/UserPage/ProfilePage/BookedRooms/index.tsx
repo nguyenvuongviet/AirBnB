@@ -15,7 +15,7 @@ const BookedRooms: React.FC<BookedRoomsProps> = ({ user }) => {
   const { bookedRooms, loading, error } = useSelector(
     (state: RootState) => state.bookedRooms
   );
-  console.log(bookedRooms);
+
   useEffect(() => {
     if (user) {
       dispatch(fetchBookedRooms(user.id));

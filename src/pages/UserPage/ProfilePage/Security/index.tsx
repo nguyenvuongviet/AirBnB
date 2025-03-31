@@ -1,4 +1,4 @@
-import { Card, Button } from "antd";
+import { Button, Card } from "antd";
 
 const Security: React.FC = () => {
   return (

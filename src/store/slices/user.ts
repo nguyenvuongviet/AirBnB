@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ApiResponse } from "../../models/ApiResponse";
 import { UserInfo } from "../../models/UserInfo";
 import api from "../../services/api";
-import { ApiResponse } from "../../models/ApiResponse";
 import { updateCurrentUser } from "./Auth/sign-in";
 
 interface UserState {

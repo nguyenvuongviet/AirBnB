@@ -42,7 +42,7 @@ const AppHeader: React.FC = () => {
       <nav className="hidden md:flex space-x-8">
         <NavLink
           to="/"
-          className="text-black text-lg font-semibold hover:text-blue-800"
+          className="text-black text-lg font-semibold hover:text-red-500"
         >
           Trang Chủ
         </NavLink>

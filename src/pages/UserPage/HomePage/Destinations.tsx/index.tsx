@@ -37,6 +37,10 @@ const Destinations: React.FC = () => {
             </Col>
           ))}
         </Row>
+      ) : locations.length === 0 ? (
+        <div className="text-center text-gray-500 text-lg mt-4">
+          Không có dữ liệu.
+        </div>
       ) : (
         <>
           <Row gutter={[16, 16]} justify="center">
@@ -64,13 +68,15 @@ const Destinations: React.FC = () => {
             ))}
           </Row>
 
-          <Pagination
-            current={currentPage}
-            pageSize={PAGE_SIZE}
-            total={locations.length}
-            onChange={(page) => setCurrentPage(page)}
-            className="mt-6"
-          />
+          {locations.length > 0 && (
+            <Pagination
+              current={currentPage}
+              pageSize={PAGE_SIZE}
+              total={locations.length}
+              onChange={(page) => setCurrentPage(page)}
+              className="mt-6"
+            />
+          )}
         </>
       )}
     </div>

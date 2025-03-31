@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../../store";
-import { logout, updateCurrentUser } from "../../../store/slices/Auth/sign-in";
+import { logout } from "../../../store/slices/Auth/sign-in";
 import { fetchUser, updateAvatar } from "../../../store/slices/user";
 import { getMenuItems } from "./MenuItems";
 
@@ -120,6 +120,7 @@ const ProfilePage: React.FC = () => {
                 Xin chào, {user?.name || "Khách"}
               </h2>
             </div>
+
             <Tabs
               activeKey={activeTab}
               onChange={(key) => {
@@ -136,7 +137,7 @@ const ProfilePage: React.FC = () => {
                 key: item.id,
                 label: (
                   <div
-                    className={`flex items-center text-base gap-2 transition-colors duration-200 ${
+                    className={`flex items-center gap-2 text-xs sm:text-sm md:text-base transition-colors duration-200 ${
                       activeTab === item.id
                         ? "text-blue-600"
                         : "text-gray-700 hover:text-blue-500"
@@ -149,6 +150,8 @@ const ProfilePage: React.FC = () => {
                   </div>
                 ),
               }))}
+              style={{ overflowX: "auto" }}
+              type="line"
             />
           </div>
         </div>

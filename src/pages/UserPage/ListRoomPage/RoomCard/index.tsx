@@ -5,7 +5,9 @@ import {
 } from "@ant-design/icons";
 import { Card, Col, Image, Row, Tag, Tooltip } from "antd";
 import { useState } from "react";
+import { TbBath, TbBed, TbHome, TbUser } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { amenities } from "../../../../constants/amenities";
 import { Room } from "../../../../models/Room";
 
 interface RoomCardProps {
@@ -31,11 +33,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
           />
         </Col>
 
-        <Col
-          xs={24}
-          md={14}
-          className="flex flex-col justify-between h-full mt-3 md:mt-0"
-        >
+        <Col xs={24} md={14} className="flex flex-col justify-between h-full">
           <div className="flex flex-col gap-1">
             <div className="flex justify-between items-center">
               <Tooltip title={room.tenPhong} placement="top">
@@ -43,9 +41,8 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
                   {room.tenPhong}
                 </h3>
               </Tooltip>
-
               <div
-                className="p-2 cursor-pointer transition-all"
+                className="cursor-pointer transition-all"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsLiked(!isLiked);
@@ -59,21 +56,29 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
               </div>
             </div>
 
-            <p className="text-gray-500 text-sm">
-              {room.khach} khách · {room.phongNgu} phòng ngủ · {room.giuong}{" "}
-              giường · {room.phongTam} phòng tắm
+            <p className="text-gray-600 flex gap-5 text-base border-b pb-1">
+              <span className="flex items-center gap-1">
+                <TbUser className="text-base" />· {room.khach}
+              </span>
+              <span className="flex items-center gap-1">
+                <TbHome className="text-base" />· {room.phongNgu}
+              </span>
+              <span className="flex items-center gap-1">
+                <TbBed className="text-base" />· {room.giuong}
+              </span>
+              <span className="flex items-center gap-1">
+                <TbBath className="text-base" />· {room.phongTam}
+              </span>
             </p>
 
             <div className="flex flex-wrap gap-1 mt-2">
-              {room.wifi && <Tag className="text-gray-500">WiFi</Tag>}
-              {room.bep && <Tag className="text-gray-500">Bếp</Tag>}
-              {room.dieuHoa && <Tag className="text-gray-500">Điều hòa</Tag>}
-              {room.hoBoi && <Tag className="text-gray-500">Hồ bơi</Tag>}
-              {room.doXe && <Tag className="text-gray-500">Đỗ xe</Tag>}
-              {room.banUi && <Tag className="text-gray-500">Bàn ủi</Tag>}
-              {room.tivi && <Tag className="text-gray-500">Tivi</Tag>}
-              {room.banLa && <Tag className="text-gray-500">Bàn là</Tag>}
-              {room.mayGiat && <Tag className="text-gray-500">Máy giặt</Tag>}
+              {amenities
+                .filter(({ field }) => room[field])
+                .map(({ name, field }) => (
+                  <Tag key={field} className="text-gray-500">
+                    {name}
+                  </Tag>
+                ))}
             </div>
           </div>
 
