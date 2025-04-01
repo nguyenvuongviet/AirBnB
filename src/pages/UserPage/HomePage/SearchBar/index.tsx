@@ -21,15 +21,22 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
     null
   );
   const searchBarRef = useRef<HTMLDivElement | null>(null);
-
+  const normalizeString = (str: string) => {
+    return str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  };
   const filteredLocations = useMemo(
     () =>
       searchTerm.trim()
-        ? locations.filter((loc) =>
-            `${loc.tenViTri} ${loc.tinhThanh} ${loc.quocGia}`
-              .toLowerCase()
-              .includes(searchTerm.trim().toLowerCase())
-          )
+        ? locations.filter((loc) => {
+            const normalizedSearchTerm = normalizeString(searchTerm.trim());
+            const normalizedLocationString = normalizeString(
+              `${loc.tenViTri} ${loc.tinhThanh} ${loc.quocGia}`
+            );
+            return normalizedLocationString.includes(normalizedSearchTerm);
+          })
         : locations,
     [searchTerm, locations]
   );
@@ -75,7 +82,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
       className="flex items-center bg-white shadow-lg rounded-full overflow-hidden w-full sm:max-w-full md:max-w-3xl lg:max-w-5xl mx-auto transform transition-all hover:shadow-2xl hover:scale-105"
       ref={searchBarRef}
     >
-      <div className="flex flex-col sm:px-1 md:px-3 lg:px-5 py-3 flex-[1.2] rounded-full hover:bg-gray-100 transition-all duration-300 cursor-pointer relative">
+      <div className="flex flex-col sm:px-1 md:px-3 lg:px-4 py-3 flex-[1.2] rounded-full hover:bg-gray-100 transition-all duration-300 cursor-pointer relative">
         <div className="flex px-3 items-start">
           <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-700">
             Địa điểm
@@ -103,7 +110,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
 
       <div className="border-l border-gray-300 h-10"></div>
 
-      <div className="flex flex-col sm:px-1 md:px-3 lg:px-5 py-3 flex-[1.6] rounded-full hover:bg-gray-100 transition-all duration-300 cursor-pointer">
+      <div className="flex flex-col sm:px-1 md:px-3 lg:px-4 py-3 flex-[1.6] rounded-full hover:bg-gray-100 transition-all duration-300 cursor-pointer">
         <div className="flex px-3 items-start">
           <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-700">
             Nhận/Trả phòng
@@ -119,7 +126,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
 
       <div className="border-l border-gray-300 h-10"></div>
 
-      <div className="flex flex-col sm:px-1 md:px-3 lg:px-5 py-3 flex-[0.8] rounded-full hover:bg-gray-100 transition-all duration-300 cursor-pointer">
+      <div className="flex flex-col sm:px-1 md:px-3 lg:px-4 py-3 flex-[0.8] rounded-full hover:bg-gray-100 transition-all duration-300 cursor-pointer">
         <div className="flex px-3 items-start">
           <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-700">
             Khách

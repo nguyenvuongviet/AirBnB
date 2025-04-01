@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import SignInReducer from "./slices/Auth/sign-in";
 import SignUpReducer from "./slices/Auth/sign-up";
 import bookedRoomsReducer from "./slices/bookedRooms";
+import commentsReducer from "./slices/comments";
 import locationReducer from "./slices/locations";
 import roomReducer from "./slices/room";
 import roomsReducer from "./slices/rooms";
@@ -17,6 +18,7 @@ const store = configureStore({
     bookedRooms: bookedRoomsReducer,
     user: userReducer,
     room: roomReducer,
+    comments: commentsReducer,
   },
   //   devTools: env === "development",
 });

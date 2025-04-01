@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { amenities } from "../../../constants/amenities";
 import { AppDispatch, RootState } from "../../../store";
+import { fetchCommentsByRoom } from "../../../store/slices/comments";
 import { fetchRoomById } from "../../../store/slices/room";
 import BookingForm from "./BookingForm";
 import CommentSection from "./CommentSection";
@@ -21,10 +22,11 @@ const DetailRoomPage: React.FC = () => {
   useEffect(() => {
     if (id) {
       dispatch(fetchRoomById(Number(id)));
+      dispatch(fetchCommentsByRoom(Number(id)));
     }
   }, [dispatch, id]);
 
-  if (loading) {
+  if (loading ) {
     return (
       <div className="text-center mt-20 text-xl">
         Đang tải thông tin phòng...
@@ -32,7 +34,7 @@ const DetailRoomPage: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (error ) {
     return <div className="text-center mt-20 text-red-500">Lỗi: {error}</div>;
   }
 
@@ -126,7 +128,7 @@ const DetailRoomPage: React.FC = () => {
           </Card>
         </div>
 
-        <CommentSection roomId={room.id} />
+        <CommentSection roomId={Number(id)} />
       </div>
     </div>
   );

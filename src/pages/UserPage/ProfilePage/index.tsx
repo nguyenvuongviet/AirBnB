@@ -3,7 +3,7 @@ import { Avatar, notification, Tabs } from "antd";
 import Upload from "antd/es/upload";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../../store";
 import { logout } from "../../../store/slices/Auth/sign-in";
 import { fetchUser, updateAvatar } from "../../../store/slices/user";
@@ -28,14 +28,16 @@ const useTabPosition = () => {
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const currentUserString = localStorage.getItem("CURRENT_USER") || "{}";
+  const currentUser = JSON.parse(currentUserString);
+  const userId = currentUser?.user?.id;
   const user = useSelector((state: RootState) => state.user.user);
   const tabPosition = useTabPosition();
   const [activeTab, setActiveTab] = useState("profile");
 
   useEffect(() => {
-    if (id) dispatch(fetchUser(Number(id)));
-  }, [dispatch, id]);
+    if (userId) dispatch(fetchUser(Number(userId)));
+  }, [dispatch, userId]);
 
   const showNotification = (
     type: "success" | "error",
