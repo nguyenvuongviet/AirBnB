@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Location } from "../../../../models/Location";
 import { RootState } from "../../../../store";
+import { useNavigate } from "react-router-dom";
 
 const PAGE_SIZE = 8;
 
@@ -10,11 +11,16 @@ const Destinations: React.FC = () => {
   const { locations, loading } = useSelector(
     (state: RootState) => state.location
   );
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
 
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const endIndex = startIndex + PAGE_SIZE;
   const paginatedLocations = locations.slice(startIndex, endIndex);
+
+  const handleCardClick = (locationId: number) => {
+    navigate(`/list-room/${locationId}`);
+  };
 
   return (
     <div className="flex flex-col items-center">
@@ -56,13 +62,18 @@ const Destinations: React.FC = () => {
                       width="100%"
                       height={180}
                       style={{ objectFit: "cover" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
                     />
                   }
                 >
-                  <Card.Meta
-                    title={location.tenViTri}
-                    description={`${location.tinhThanh}, ${location.quocGia}`}
-                  />
+                  <div onClick={() => handleCardClick(location.id)}>
+                    <Card.Meta
+                      title={location.tenViTri}
+                      description={`${location.tinhThanh}, ${location.quocGia}`}
+                    />
+                  </div>
                 </Card>
               </Col>
             ))}

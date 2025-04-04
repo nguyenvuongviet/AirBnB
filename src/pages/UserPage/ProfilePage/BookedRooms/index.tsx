@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserInfo } from "../../../../models/UserInfo";
 import { AppDispatch, RootState } from "../../../../store";
 import { fetchBookedRooms } from "../../../../store/slices/bookedRooms";
-import RoomCard from "../../ListRoomPage/RoomCard";
+import CardBookedRoom from "./CardBookedRoom";
 
 interface BookedRoomsProps {
   user: UserInfo | null;
@@ -31,7 +31,7 @@ const BookedRooms: React.FC<BookedRoomsProps> = ({ user }) => {
       )}
       <div className="space-y-4">
         {bookedRooms.map((room) => (
-          <RoomCard key={room.id} room={room} />
+          <CardBookedRoom key={room.id} bookedRoom={room} />
         ))}
       </div>
     </Card>

@@ -4,6 +4,7 @@ import UserPage from "../pages/UserPage";
 import DetailRoomPage from "../pages/UserPage/DetailRoomPage";
 import HomePage from "../pages/UserPage/HomePage";
 import ListRoomPage from "../pages/UserPage/ListRoomPage";
+import Payment from "../pages/UserPage/Payment";
 import ProFilePage from "../pages/UserPage/ProfilePage";
 import SignInPage from "../pages/UserPage/SignInPage";
 import SignUpPage from "../pages/UserPage/SignUpPage";
@@ -29,6 +30,10 @@ const routes: TRoute[] = [
       {
         path: "/profile",
         element: ProFilePage,
+      },
+      {
+        path: "/payment",
+        element: Payment,
       },
     ],
   },

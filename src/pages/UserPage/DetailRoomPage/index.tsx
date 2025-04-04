@@ -1,4 +1,4 @@
-import { Card, Divider, Image, List, Rate, Typography } from "antd";
+import { Card, Divider, Image, List, Rate, Spin, Typography } from "antd";
 import { useEffect } from "react";
 import { TbBath, TbBed, TbHome, TbUser } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { amenities } from "../../../constants/amenities";
 import { AppDispatch, RootState } from "../../../store";
 import { fetchCommentsByRoom } from "../../../store/slices/comments";
 import { fetchRoomById } from "../../../store/slices/room";
-import BookingForm from "./BookingForm";
+import Booking from "./Booking";
 import CommentSection from "./CommentSection";
 
 const { Title, Text } = Typography;
@@ -26,20 +26,20 @@ const DetailRoomPage: React.FC = () => {
     }
   }, [dispatch, id]);
 
-  if (loading ) {
+  if (loading) {
     return (
-      <div className="text-center mt-20 text-xl">
-        Đang tải thông tin phòng...
+      <div className="flex justify-center items-center min-h-screen">
+        <Spin size="large" />
       </div>
     );
   }
 
-  if (error ) {
-    return <div className="text-center mt-20 text-red-500">Lỗi: {error}</div>;
-  }
-
-  if (!room) {
-    return <div className="text-center mt-20">Không tìm thấy phòng.</div>;
+  if (!room || error) {
+    return (
+      <div className="text-center text-gray-500 text-xl mt-10">
+        Không có phòng nào phù hợp với tìm kiếm của bạn.
+      </div>
+    );
   }
 
   return (
@@ -123,8 +123,8 @@ const DetailRoomPage: React.FC = () => {
             />
           </Card>
 
-          <Card className="lg:w-1/3 shadow-md rounded-lg p-6">
-            <BookingForm />
+          <Card className="lg:w-1/3 lg:h-1/3 shadow-md rounded-lg">
+            <Booking room={room} />
           </Card>
         </div>
 

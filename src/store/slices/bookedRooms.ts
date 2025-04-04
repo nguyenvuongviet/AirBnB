@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ApiResponse } from "../../models/ApiResponse";
-import { Room } from "../../models/Room";
+import { Booking } from "../../models/Booking";
 import api from "../../services/api";
 
 interface BookedRoomsState {
-  bookedRooms: Room[];
+  bookedRooms: Booking[];
   loading: boolean;
   error: string | null;
 }
@@ -19,10 +19,8 @@ export const fetchBookedRooms = createAsyncThunk(
   "bookedRooms/fetchBookedRooms",
   async (MaNguoiDung: number, { rejectWithValue }) => {
     try {
-      // MaNguoiDung = 1;
-      const response = await api.get<ApiResponse<Room[]>>(
+      const response = await api.get<ApiResponse<Booking[]>>(
         `dat-phong/lay-theo-nguoi-dung/${MaNguoiDung}`
-        // `/phong-thue`
       );
 
       return response.data.content;

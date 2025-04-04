@@ -4,6 +4,7 @@ import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Location } from "../../../../models/Location";
 import LocationList from "./LocationList";
+import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 
@@ -27,6 +28,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "");
   };
+
+  const disabledDate = (current: dayjs.Dayjs) =>
+    current && current < dayjs().startOf("day");
+
   const filteredLocations = useMemo(
     () =>
       searchTerm.trim()
@@ -113,14 +118,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ locations, loading }) => {
       <div className="flex flex-col sm:px-1 md:px-3 lg:px-4 py-3 flex-[1.6] rounded-full hover:bg-gray-100 transition-all duration-300 cursor-pointer">
         <div className="flex px-3 items-start">
           <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-700">
-            Nhận/Trả phòng
+            Nhận / Trả phòng
           </span>
         </div>
         <RangePicker
-          className="w-full px-3 py-1 rounded-lg"
+          disabledDate={disabledDate}
           size="large"
           placeholder={["Nhận phòng", "Trả phòng"]}
           variant="borderless"
+          className="w-full px-3 py-1 rounded-lg"
         />
       </div>
 
