@@ -48,7 +48,7 @@ const Weather: React.FC<WeatherProps> = ({ selectedLocation }) => {
 
   if (!data) return null;
 
-  const { location, current } = data;
+  const { current } = data;
 
   const popoverContent = (
     <div style={{ textAlign: "left", maxWidth: "300px" }}>
