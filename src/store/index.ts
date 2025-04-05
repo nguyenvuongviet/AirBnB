@@ -7,6 +7,8 @@ import locationReducer from "./slices/locations";
 import roomReducer from "./slices/room";
 import roomsReducer from "./slices/rooms";
 import userReducer from "./slices/user";
+import weatherReducer from "./slices/weather";
+import coordinatesReducer from "./slices/coordinates";
 // const env = import.meta.env.NODE_ENV;
 
 const store = configureStore({
@@ -19,6 +21,8 @@ const store = configureStore({
     user: userReducer,
     room: roomReducer,
     comments: commentsReducer,
+    weather: weatherReducer,
+    coordinates: coordinatesReducer,
   },
   //   devTools: env === "development",
 });

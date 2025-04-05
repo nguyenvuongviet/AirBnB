@@ -1,5 +1,5 @@
-import { Layout, Typography } from "antd";
 import Icon, { MailOutlined, PhoneOutlined } from "@ant-design/icons";
+import { Layout, Typography } from "antd";
 import { FaAirbnb } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 

@@ -1,10 +1,10 @@
 import { CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, DatePicker, Input, notification, Spin } from "antd";
+import dayjs from "dayjs";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Location } from "../../../../models/Location";
 import LocationList from "./LocationList";
-import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 

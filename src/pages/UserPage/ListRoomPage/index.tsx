@@ -4,21 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../../store";
 import { fetchRoomsByLocation } from "../../../store/slices/rooms";
+import Weather from "../Weather/index.tsx";
 import FilterBar from "./FilterBar.tsx";
 import RoomCard from "./RoomCard";
+import { fetchLocationById } from "../../../store/slices/locations.ts";
 
 const PAGE_SIZE = 3;
 
-const ListRoom = () => {
+const ListRoom: React.FC = () => {
   const { maViTri } = useParams<{ maViTri: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const { rooms, loading } = useSelector((state: RootState) => state.rooms);
-
+  const { selectedLocation } = useSelector(
+    (state: RootState) => state.location
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (maViTri) {
       dispatch(fetchRoomsByLocation(Number(maViTri)));
+      dispatch(fetchLocationById(Number(maViTri)));
     }
   }, [dispatch, maViTri]);
 
@@ -26,8 +31,14 @@ const ListRoom = () => {
   const paginatedRooms = rooms.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
-    <div className="max-w-7xl mx-auto py-6 px-4 min-h-screen">
-      <FilterBar />
+    <div className="max-w-7xl mx-auto py-6 px-4 min-h-screen relative">
+      <div className="lg:w-3/4">
+        <FilterBar />
+      </div>
+
+      <div className="absolute top-0 right-0 lg:w-1/5 lg:block hidden">
+        {selectedLocation && <Weather selectedLocation={selectedLocation} />}
+      </div>
 
       <Row gutter={[24, 24]} className="mt-5 flex flex-col-reverse lg:flex-row">
         <Col xs={24} lg={12}>

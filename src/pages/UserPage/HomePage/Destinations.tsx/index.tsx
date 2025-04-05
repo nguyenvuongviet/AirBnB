@@ -1,9 +1,9 @@
 import { Card, Col, Image, Pagination, Row, Skeleton } from "antd";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Location } from "../../../../models/Location";
 import { RootState } from "../../../../store";
-import { useNavigate } from "react-router-dom";
 
 const PAGE_SIZE = 8;
 
