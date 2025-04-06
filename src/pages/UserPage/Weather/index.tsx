@@ -1,33 +1,27 @@
 import { Card, Col, Popover, Row, Spin, Typography } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Location } from "../../../models/Location";
 import { AppDispatch, RootState } from "../../../store";
 import { fetchWeather } from "../../../store/slices/weather";
-import { Location } from "../../../models/Location";
-import { getCoordinatesWithNominatim } from "../../../store/slices/coordinates";
 
 const { Text, Title } = Typography;
 
 interface WeatherProps {
   selectedLocation: Location;
+  coordinates: { latitude: number | null; longitude: number | null };
 }
 
-const Weather: React.FC<WeatherProps> = ({ selectedLocation }) => {
+const Weather: React.FC<WeatherProps> = ({ selectedLocation, coordinates }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { data, loading, error } = useSelector(
     (state: RootState) => state.weather
   );
-  const { latitude, longitude } = useSelector(
-    (state: RootState) => state.coordinates
-  );
+
+  const { latitude, longitude } = coordinates;
 
   useEffect(() => {
     dispatch(fetchWeather(`${latitude},${longitude}`));
-    dispatch(
-      getCoordinatesWithNominatim(
-        `${selectedLocation.tenViTri}, ${selectedLocation.quocGia}`
-      )
-    );
   }, [dispatch, selectedLocation, latitude, longitude]);
 
   if (loading) {

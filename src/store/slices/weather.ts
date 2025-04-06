@@ -13,6 +13,9 @@ const initialState: WeatherState = {
   error: null,
 };
 
+const days = 14;
+const ApiKey = "959f3b67f8c747a9ba5193743250404";
+
 export const fetchWeather = createAsyncThunk(
   "weather/fetchWeather",
   async (locationName: string, { rejectWithValue }) => {
@@ -22,8 +25,8 @@ export const fetchWeather = createAsyncThunk(
         {
           params: {
             q: locationName,
-            days: 14,
-            key: "959f3b67f8c747a9ba5193743250404",
+            days: days,
+            key: ApiKey,
           },
         }
       );

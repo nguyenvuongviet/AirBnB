@@ -8,6 +8,7 @@ import Weather from "../Weather/index.tsx";
 import FilterBar from "./FilterBar.tsx";
 import RoomCard from "./RoomCard";
 import { fetchLocationById } from "../../../store/slices/locations.ts";
+import { getCoordinatesWithNominatim } from "../../../store/slices/coordinates.ts";
 
 const PAGE_SIZE = 3;
 
@@ -18,7 +19,9 @@ const ListRoom: React.FC = () => {
   const { selectedLocation } = useSelector(
     (state: RootState) => state.location
   );
-  const [currentPage, setCurrentPage] = useState(1);
+  const { latitude, longitude } = useSelector(
+    (state: RootState) => state.coordinates
+  );
 
   useEffect(() => {
     if (maViTri) {
@@ -27,6 +30,21 @@ const ListRoom: React.FC = () => {
     }
   }, [dispatch, maViTri]);
 
+  useEffect(() => {
+    if (
+      selectedLocation &&
+      selectedLocation.tenViTri &&
+      selectedLocation.quocGia
+    ) {
+      dispatch(
+        getCoordinatesWithNominatim(
+          `${selectedLocation.tenViTri}, ${selectedLocation.quocGia}`
+        )
+      );
+    }
+  }, [selectedLocation]);
+
+  const [currentPage, setCurrentPage] = useState(1);
   const startIndex = (currentPage - 1) * PAGE_SIZE;
   const paginatedRooms = rooms.slice(startIndex, startIndex + PAGE_SIZE);
 
@@ -37,7 +55,12 @@ const ListRoom: React.FC = () => {
       </div>
 
       <div className="absolute top-0 right-0 lg:w-1/5 lg:block hidden">
-        {selectedLocation && <Weather selectedLocation={selectedLocation} />}
+        {selectedLocation && (
+          <Weather
+            selectedLocation={selectedLocation}
+            coordinates={{ latitude, longitude }}
+          />
+        )}
       </div>
 
       <Row gutter={[24, 24]} className="mt-5 flex flex-col-reverse lg:flex-row">
@@ -73,7 +96,8 @@ const ListRoom: React.FC = () => {
         <Col xs={24} lg={12}>
           <div className="rounded-lg h-full flex">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d80438.54930345368!2d106.74527731568199!3d10.812506504355568!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f385570472f%3A0x1787491df0ed8d6a!2zRGluaCDEkOG7mWMgTOG6rXA!5e0!3m2!1svi!2s!4v1743099076331!5m2!1svi!2s"
+              key={`${latitude}-${longitude}`}
+              src={`https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`}
               className="w-full h-5/6 rounded-lg"
               style={{ border: "0" }}
               allowFullScreen
