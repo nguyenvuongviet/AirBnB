@@ -30,7 +30,6 @@ const AppHeader: React.FC = () => {
       description: "Bạn đã đăng xuất khỏi hệ thống.",
       placement: "topRight",
     });
-    navigate("/");
   };
 
   return (

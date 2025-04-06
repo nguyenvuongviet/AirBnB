@@ -24,6 +24,15 @@ const Booking: React.FC<BookingProps> = ({ room }) => {
   ]);
 
   const handleBooking = () => {
+    if (!currentUser || !currentUser.user) {
+      notification.warning({
+        message: "Bạn chưa đăng nhập",
+        description: "Vui lòng đăng nhập để thực hiện đặt phòng!",
+        placement: "topRight",
+      });
+      return;
+    }
+
     if (!dates[0] || !dates[1]) {
       notification.error({
         message: "Lỗi đặt phòng",
