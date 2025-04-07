@@ -2,7 +2,7 @@ import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Dropdown, Image, Layout, notification } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../../../../assets/images/logo.png";
 import { AppDispatch, RootState } from "../../../../store";
 import { logout } from "../../../../store/slices/Auth/sign-in";
@@ -12,7 +12,6 @@ const { Header } = Layout;
 
 const AppHeader: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
 
   const user = useSelector((state: RootState) => state.signIn.data?.user);
   const [avatar, setAvatar] = useState(user?.avatar);

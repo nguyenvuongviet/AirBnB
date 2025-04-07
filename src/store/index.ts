@@ -9,6 +9,7 @@ import roomsReducer from "./slices/rooms";
 import userReducer from "./slices/user";
 import weatherReducer from "./slices/weather";
 import coordinatesReducer from "./slices/coordinates";
+import bookingReducer from "./slices/booking";
 // const env = import.meta.env.NODE_ENV;
 
 const store = configureStore({
@@ -23,6 +24,7 @@ const store = configureStore({
     comments: commentsReducer,
     weather: weatherReducer,
     coordinates: coordinatesReducer,
+    booking: bookingReducer,
   },
   //   devTools: env === "development",
 });

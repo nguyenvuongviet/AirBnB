@@ -123,9 +123,13 @@ const DetailRoomPage: React.FC = () => {
             />
           </Card>
 
-          <Card className="lg:w-1/3 lg:h-1/3 shadow-md rounded-lg">
-            <Booking room={room} />
-          </Card>
+          <div className="lg:w-1/3">
+            <div className="lg:sticky lg:top-24">
+              <Card className="shadow-md rounded-lg">
+                <Booking room={room} />
+              </Card>
+            </div>
+          </div>
         </div>
 
         <CommentSection roomId={Number(id)} />

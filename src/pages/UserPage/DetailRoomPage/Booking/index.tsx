@@ -2,8 +2,12 @@ import { DatePicker, Divider, notification, Popover } from "antd";
 // import locale from "antd/es/date-picker/locale/vi_VN";
 import dayjs, { Dayjs } from "dayjs";
 import { useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import type { Booking } from "../../../../models/Booking";
 import { Room } from "../../../../models/Room";
+import { AppDispatch } from "../../../../store";
+import { createBooking } from "../../../../store/slices/booking";
 import DropdownBooking from "./DropdownBooking";
 
 const { RangePicker } = DatePicker;
@@ -14,6 +18,7 @@ export interface BookingProps {
 
 const Booking: React.FC<BookingProps> = ({ room }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const currentUserString = localStorage.getItem("CURRENT_USER") || "{}";
   const currentUser = JSON.parse(currentUserString);
   const userId = currentUser?.user?.id;
@@ -34,7 +39,7 @@ const Booking: React.FC<BookingProps> = ({ room }) => {
     }
 
     if (!dates[0] || !dates[1]) {
-      notification.error({
+      notification.warning({
         message: "Lỗi đặt phòng",
         description: "Vui lòng chọn ngày nhận và trả phòng!",
         placement: "topRight",
@@ -42,16 +47,31 @@ const Booking: React.FC<BookingProps> = ({ room }) => {
       return;
     }
 
-    const bookingData = {
-      id: Date.now(),
+    const bookingData: Booking = {
       maPhong: room.id,
       ngayDen: dates[0].format("YYYY-MM-DD"),
       ngayDi: dates[1].format("YYYY-MM-DD"),
       soLuongKhach: guestCount,
       maNguoiDung: userId,
+      tongTien: totalPrice,
     };
 
-    navigate("/payment", { state: bookingData });
+    dispatch(createBooking(bookingData))
+      .then(() => {
+        notification.success({
+          message: "Đặt phòng thành công",
+          description: "Bạn đã đặt phòng thành công!",
+          placement: "topRight",
+        });
+        navigate("/payment", { state: bookingData });
+      })
+      .catch((error) => {
+        notification.error({
+          message: "Lỗi đặt phòng",
+          description: error.message,
+          placement: "topRight",
+        });
+      });
   };
 
   const handleGuestChange = (newCount: number) => {
