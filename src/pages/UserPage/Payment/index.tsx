@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
-  Descriptions,
-  Image,
-  Typography,
-  Rate,
   Divider,
+  Image,
   Radio,
+  Rate,
   Space,
+  Typography,
   message,
 } from "antd";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Booking } from "../../../models/Booking";
 import { Room } from "../../../models/Room";
 
@@ -52,12 +51,14 @@ const Payment: React.FC = () => {
               {room.tenPhong}
             </Title>
             <div className="flex items-center">
-              <Rate allowHalf disabled defaultValue={4.5} size="small" />
+              <Rate allowHalf disabled defaultValue={4.5} className="text-lg" />
               <span className="text-gray-600 text-xs ml-1 underline hover:text-blue-600 hover:cursor-pointer">
                 (120 đánh giá)
               </span>
             </div>
-            <Paragraph className="text-sm text-gray-700">{room.moTa?.substring(0, 100)}...</Paragraph>
+            <Paragraph className="text-sm text-gray-700">
+              {room.moTa?.substring(0, 100)}...
+            </Paragraph>
           </div>
 
           {/* Thông tin thanh toán */}
@@ -80,7 +81,9 @@ const Payment: React.FC = () => {
               </div>
               <Divider className="my-4" />
               <div className="flex justify-between">
-                <span className="font-semibold text-lg text-black">Tổng cộng:</span>
+                <span className="font-semibold text-lg text-black">
+                  Tổng cộng:
+                </span>
                 <span className="text-xl font-bold text-red-500">
                   {booking.tongTien?.toLocaleString()} USD
                 </span>
