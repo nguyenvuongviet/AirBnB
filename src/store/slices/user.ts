@@ -45,7 +45,7 @@ export const updateUser = createAsyncThunk(
 
       return updatedUser;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Lỗi cập nhật");
+      return rejectWithValue(error.response?.data?.content || "Lỗi cập nhật");
     }
   }
 );

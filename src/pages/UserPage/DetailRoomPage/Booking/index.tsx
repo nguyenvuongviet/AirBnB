@@ -63,7 +63,7 @@ const Booking: React.FC<BookingProps> = ({ room }) => {
           description: "Bạn đã đặt phòng thành công!",
           placement: "topRight",
         });
-        navigate("/payment", { state: bookingData });
+        navigate("/payment", { state: { booking: bookingData, room: room } });
       })
       .catch((error) => {
         notification.error({

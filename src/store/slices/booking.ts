@@ -8,14 +8,10 @@ export const createBooking = createAsyncThunk(
   async (bookingData: Booking, { rejectWithValue }) => {
     try {
       const { tongTien, ...model } = bookingData;
-      console.log(model);
-
       const response = await api.post<ApiResponse<Booking>>(
         "/dat-phong",
         model
       );
-      console.log(response);
-
       return response.data.content;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Lỗi API");

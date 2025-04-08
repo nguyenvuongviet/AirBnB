@@ -89,7 +89,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
             </span>
             <span className="text-xl font-semibold mt-2 md:mt-0">
               {room.giaTien}$
-              <span className="text-gray-500 font-medium">/tháng</span>
+              <span className="text-gray-500 font-medium"> /đêm</span>
             </span>
           </div>
         </Col>
