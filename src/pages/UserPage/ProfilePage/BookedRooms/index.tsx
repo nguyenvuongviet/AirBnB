@@ -30,9 +30,12 @@ const BookedRooms: React.FC<BookedRoomsProps> = ({ user }) => {
         <p className="text-gray-500">Bạn chưa đặt phòng nào.</p>
       )}
       <div className="space-y-4">
-        {bookedRooms.map((room) => (
-          <CardBookedRoom key={room.id} bookedRoom={room} />
-        ))}
+        {bookedRooms
+          .slice()
+          .reverse()
+          .map((room) => (
+            <CardBookedRoom key={room.id} bookedRoom={room} />
+          ))}
       </div>
     </Card>
   );

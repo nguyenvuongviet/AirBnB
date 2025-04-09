@@ -53,7 +53,7 @@ const CardBookedRoom: React.FC<CardBookedRoomProps> = ({ bookedRoom }) => {
             <RoomCard room={roomDetail} />
           </div>
         )}
-        <div className="flex-shrink-0 w-full sm:w-1/3">
+        <div className="flex-shrink-0 w-full sm:w-1/5">
           <div className="mb-4 bg-green-100 p-3 rounded-lg">
             <Text strong className="text-gray-600 block mb-1">
               Check-In Date:
