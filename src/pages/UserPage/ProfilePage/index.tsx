@@ -36,8 +36,13 @@ const ProfilePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("profile");
 
   useEffect(() => {
-    if (userId) dispatch(fetchUser(Number(userId)));
-  }, [dispatch, userId]);
+    if (!userId) {
+      showNotification("error", "Lỗi", "Vui lòng đăng nhập!");
+      navigate("/sign-in");
+    } else {
+      dispatch(fetchUser(Number(userId)));
+    }
+  }, [dispatch, navigate, userId]);
 
   const showNotification = (
     type: "success" | "error",

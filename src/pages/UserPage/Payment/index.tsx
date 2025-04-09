@@ -8,8 +8,9 @@ import {
   Space,
   Typography,
   message,
+  notification,
 } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Booking } from "../../../models/Booking";
 import { Room } from "../../../models/Room";
@@ -20,15 +21,24 @@ const Payment: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { booking, room } = location.state as { booking: Booking; room: Room };
+  const { booking, room } = (location.state || {}) as {
+    booking: Booking;
+    room: Room;
+  };
   const [paymentMethod, setPaymentMethod] = useState("card");
 
+  useEffect(() => {
+    if (!booking || !room) {
+      notification.error({
+        message: "Lỗi",
+        description: "Vui lòng chọn phòng",
+      });
+      navigate("/");
+    }
+  }, [booking, room, navigate]);
+
   if (!booking || !room) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-xl text-red-500">Không có dữ liệu đặt phòng!</p>
-      </div>
-    );
+    return null;
   }
 
   const handlePayment = () => {
