@@ -42,6 +42,7 @@ const Payment: React.FC = () => {
           description: "Bạn đã đặt phòng thành công!",
           placement: "topRight",
         });
+        navigate("/");
       })
       .catch((error) => {
         notification.error({
