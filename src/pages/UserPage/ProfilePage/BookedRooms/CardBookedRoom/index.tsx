@@ -42,19 +42,18 @@ const CardBookedRoom: React.FC<CardBookedRoomProps> = ({ bookedRoom }) => {
   }
 
   return (
-    <Card className="shadow-lg border rounded-xl mb-6 bg-white">
+    <Card className="shadow-lg border rounded-xl mb-6 bg-white max-w-3xl mx-auto">
       <Title level={5} className="text-blue-600 mb-4">
         <CalendarOutlined className="mr-2 text-blue-400" />
         Booking Details
       </Title>
-      <div className="flex bg-gray-50 p-5 rounded-lg gap-6">
+      <div className="flex flex-wrap bg-gray-50 p-5 rounded-lg gap-6">
         {roomDetail && (
           <div className="flex-1 border-r pr-4">
             <RoomCard room={roomDetail} />
           </div>
         )}
-
-        <div className="flex-shrink-0 w-1/5">
+        <div className="flex-shrink-0 w-full sm:w-1/3">
           <div className="mb-4 bg-green-100 p-3 rounded-lg">
             <Text strong className="text-gray-600 block mb-1">
               Check-In Date:
