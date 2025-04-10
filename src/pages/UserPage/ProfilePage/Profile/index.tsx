@@ -146,7 +146,14 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
           <Form.Item
             label="Họ và Tên"
             name="name"
-            rules={[{ required: true, message: "Vui lòng nhập họ tên" }]}
+            rules={[
+              { required: true, message: "Vui lòng nhập họ tên" },
+              {
+                pattern:
+                  /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠ-ỹ\s']+$/,
+                message: "Họ tên không được chứa ký tự đặc biệt hoặc số!",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -154,7 +161,13 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
           <Form.Item
             label="Số điện thoại"
             name="phone"
-            rules={[{ required: true, message: "Vui lòng nhập số điện thoại" }]}
+            rules={[
+              { required: true, message: "Vui lòng nhập số điện thoại" },
+              {
+                pattern: /^\d{10}$/,
+                message: "Số điện thoại phải gồm đúng 10 chữ số!",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
