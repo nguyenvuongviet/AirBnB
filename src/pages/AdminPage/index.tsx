@@ -1,4 +1,4 @@
-const AdminPage = () => {
+const AdminPage: React.FC = () => {
   return <div>AdminPage</div>;
 };
 
