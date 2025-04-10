@@ -80,6 +80,10 @@ const signInSlice = createSlice({
         state.loading = false;
         state.data = action.payload;
       })
+      .addCase(actLogin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
       .addCase(updateCurrentUser.fulfilled, (state, action) => {
         if (state.data && action.payload) {
           state.data = {
