@@ -73,7 +73,14 @@ const SignUpPage: React.FC = () => {
           <Form.Item
             label="Họ và tên"
             name="name"
-            rules={[{ required: true, message: "Vui lòng nhập họ và tên!" }]}
+            rules={[
+              { required: true, message: "Vui lòng nhập họ và tên!" },
+              {
+                pattern:
+                  /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠ-ỹ\s']+$/,
+                message: "Họ tên không được chứa ký tự đặc biệt hoặc số!",
+              },
+            ]}
           >
             <Input placeholder="Nhập họ và tên" size="large" />
           </Form.Item>
@@ -84,16 +91,24 @@ const SignUpPage: React.FC = () => {
               name="email"
               rules={[
                 { required: true, message: "Vui lòng nhập email!" },
-                { type: "email", message: "Email không hợp lệ!" },
+                {
+                  pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                  message: "Email không đúng định dạng!",
+                },
               ]}
             >
               <Input placeholder="Nhập email" size="large" />
             </Form.Item>
+
             <Form.Item
               label="Số điện thoại"
               name="phone"
               rules={[
                 { required: true, message: "Vui lòng nhập số điện thoại!" },
+                {
+                  pattern: /^\d{10}$/,
+                  message: "Số điện thoại phải gồm đúng 10 chữ số!",
+                },
               ]}
             >
               <Input placeholder="Nhập số điện thoại" size="large" />
@@ -106,11 +121,15 @@ const SignUpPage: React.FC = () => {
               name="password"
               rules={[
                 { required: true, message: "Vui lòng nhập mật khẩu!" },
-                { min: 6, message: "Mật khẩu phải có ít nhất 6 ký tự!" },
+                {
+                  pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                  message: "Mật khẩu ít nhất 6 ký tự, bao gồm cả chữ và số!",
+                },
               ]}
             >
               <Input.Password placeholder="Nhập mật khẩu" size="large" />
             </Form.Item>
+
             <Form.Item
               label="Ngày sinh"
               name="birthday"
