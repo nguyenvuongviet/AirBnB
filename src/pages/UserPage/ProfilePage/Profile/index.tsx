@@ -133,20 +133,20 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
           </Form.Item>
 
           <Form.Item
-            label="Họ và Tên"
-            name="name"
-            rules={[{ required: true, message: "Vui lòng nhập họ tên" }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
             label="Email"
             name="email"
             rules={[
               { type: "email", message: "Email không hợp lệ" },
               { required: true, message: "Vui lòng nhập email" },
             ]}
+          >
+            <Input disabled />
+          </Form.Item>
+
+          <Form.Item
+            label="Họ và Tên"
+            name="name"
+            rules={[{ required: true, message: "Vui lòng nhập họ tên" }]}
           >
             <Input />
           </Form.Item>
