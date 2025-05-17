@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ADMIN_KEYS } from "../../../constants";
 import { UserInfo } from "../../../models/UserInfo";
 import { AppDispatch, RootState } from "../../../store";
 import {
@@ -48,7 +49,7 @@ const SignUpPage: React.FC = () => {
   }, [error]);
 
   const onFinish = async (values: UserInfo) => {
-    if (role === "ADMIN" && adminKey !== "ADMIN") {
+    if (role === "ADMIN" && adminKey !== ADMIN_KEYS) {
       notification.error({
         message: "Đăng ký thất bại! Vui lòng nhập lại khóa quản trị!",
         placement: "bottomRight",
